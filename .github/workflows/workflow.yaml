@@ -10,13 +10,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - run: |
-          echo "VERSION=$(cat src/version.txt)" >> $GITHUB_ENV
-
-      - run: |
-          echo "la valeur dans le fichier -> ${{ env.VERSION }}"
-      
-      - name : If version anything except tata
-        if: ${{ env.VERSION != 'tata' }}
+      - name: Get version in variable 
         run: |
-          echo "All good je peux faire un tag avec ta version"
+            echo "VERSION=$(cat src/version.txt)" >> $GITHUB_ENV
+      
+      - name : Fail if version == tata else continue
+        if: ${{ env.VERSION == 'tata' }}
+        run: exit 1
+
+      - name : Congrats I can continue
+        run : echo "Congrats the value is not tata in file -> ${{ env.VERSION }}"
