@@ -1,8 +1,8 @@
+name: merge-pull-requests
 on:
-  push:
+  pull_request:
     branches:
-      - 'main'
-      - 'master'
+      - 'feature/**'
 
 jobs:
   check-version:
@@ -16,7 +16,7 @@ jobs:
       
       - name : Fail if version == tata else continue
         if: ${{ env.VERSION == 'tata' }}
-        run: exit 1
+        run: echo "Version should be anything except tata" && exit 1
 
-      - name : Congrats I can continue
+      - name : Congrats I can merge
         run : echo "Congrats the value is not tata in file -> ${{ env.VERSION }}"
