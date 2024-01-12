@@ -1,0 +1,10 @@
+[alias]
+        co = checkout
+        br = branch
+        st = status
+[user]
+        email = parapente-dans-le-nord@protonmail.me
+        name = parapente-dans-le-nord
+[core]
+        editor = vi
+
