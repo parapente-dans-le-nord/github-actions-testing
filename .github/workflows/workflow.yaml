@@ -10,11 +10,8 @@ jobs:
     steps:
       - run: |
           echo 'hello world'
-      
       - uses: actions/checkout@v4
-      
-      - run |
+      - run: |
           echo "MyVar=$(cat src/test.txt)" >> $GITHUB_ENV
-      
-      - run |
+      - run: |
           echo "la valeur dans le fichier -> ${env.MyVar}"
