@@ -2,7 +2,7 @@ name: cron_workflow
 
 on:
   schedule:
-    - cron:  '0,15,30,45 20-24 * * *'
+    - cron:  '0,15,30,45 20-23 * * *'
     
 jobs:
   cron-job:
