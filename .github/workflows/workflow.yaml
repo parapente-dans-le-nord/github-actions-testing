@@ -2,11 +2,8 @@ name: merge-pull-requests
 
 on:
   pull_request:
-    types:
-      - opened
-    branches:
-      - 'feature/**'
-
+    types: [opened, synchronize, reopened]
+    
 jobs:
   check-version:
     runs-on: ubuntu-latest
