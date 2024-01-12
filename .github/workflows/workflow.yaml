@@ -1,10 +1,9 @@
 name: merge-pull-requests
+
 on:
   pull_request:
     types:
       - opened
-    branches:
-      - 'feature/**'
 
 jobs:
   check-version:
