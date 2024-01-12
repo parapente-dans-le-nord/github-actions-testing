@@ -17,4 +17,4 @@ jobs:
           echo "MyVar=$(cat src/test.txt)" >> $GITHUB_ENV
       
       - run |
-          echo "la valeur dans le fichier -> ${MyVar}"
+          echo "la valeur dans le fichier -> ${env.MyVar}"
