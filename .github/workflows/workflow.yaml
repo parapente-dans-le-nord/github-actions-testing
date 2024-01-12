@@ -5,13 +5,18 @@ on:
       - 'master'
 
 jobs:
-  my-first-job:
+  check-version:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo 'hello world'
       - uses: actions/checkout@v4
+      
       - run: |
-          echo "MyVar=$(cat src/test.txt)" >> $GITHUB_ENV
+          echo "VERSION=$(cat src/version.txt)" >> $GITHUB_ENV
+
       - run: |
-          echo "la valeur dans le fichier -> ${MyVar}"
+          echo "la valeur dans le fichier -> ${{ env.VERSION }}"
+      
+      - name : If version anything except tata
+        if: ${{ env.VERSION != 'tata' }}
+        run: |
+          echo "All good je peux faire un tag avec ta version"

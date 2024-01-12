@@ -1,9 +1,12 @@
 essayer workflow_dispatch lancemet a la main
 essayer crontab
 
-exo : lire fichier src/test.txt
+exo : 
+on : pull request vers main
+lire fichier src/version.txt
 mettre valeur dans variable
-si valeur == ça alors success
+si valeur == autre chose que tata alors :
+ mergesuccess
 sinon fail
 
 final : 
