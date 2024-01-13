@@ -16,11 +16,12 @@ jobs:
 
       - run: pwd
         
-      - name: Hello world action step
-        uses: /home/runner/work/github-actions-testing/github-actions-testing/.github/actions/hello-world-action
-        id: hello
+      - name: Run my Action
+        id: run-action
+        uses: parapente-dans-le-nord/test-action@main
         with:
-          who-to-greet: 'Manu le ouf'
+          milliseconds: 1000
 
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+      - name: Print Output
+        id: output
+        run: echo "${{ steps.run-action.outputs.time }}"
