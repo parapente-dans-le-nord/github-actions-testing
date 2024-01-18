@@ -19,8 +19,8 @@ jobs:
         id: run-action
         uses: parapente-dans-le-nord/test-action@main
         with:
-          milliseconds: 1000
+          repoPath: ${{ github.workspace }}
 
       - name: Print Output
         id: output
-        run: echo "${{ steps.run-action.outputs.time }}"
+        run: echo "mon actoin renvoit : ${{ steps.run-action.outputs.yolo }}"
