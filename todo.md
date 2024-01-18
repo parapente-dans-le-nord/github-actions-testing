@@ -16,6 +16,8 @@ step suivant fait un livrable téléchargeable ?
 
 Action : meme que précédente mais en python depuis entrypoint.sh d'un dockerfile
 
+Action : crontab workflow -> action docker -> requete externe python + commit file dans PR
+
 Action : Ajout d'un spot via issue, et/ou modif d'un spot
 A la création d'une issue, si elle a le tag qui faut
 template create_spot
