@@ -15,12 +15,20 @@ jobs:
 
       - run: pwd
 
-      - name: Run my Action
-        id: run-action
+      - name: Run my js action
+        id: run-action-js
         uses: parapente-dans-le-nord/test-action@main
         with:
-          milliseconds: 1000
+          repoPath: ${{ github.workspace }}
 
-      - name: Print Output
-        id: output
-        run: echo "${{ steps.run-action.outputs.time }}"
+      - name: Print Output js
+        id: output-js
+        run: 'echo mon actoin renvoit : ${{ steps.run-action-js.outputs.spotName }}'
+
+      - name: Run my docker action
+        id: run-action-docker
+        uses: parapente-dans-le-nord/dockerized-github-action@main
+
+      - name: Print Output docker
+        id: output-docker
+        run: 'echo mon actoin renvoit : ${{ steps.run-action-docker.outputs.spotName }}'
