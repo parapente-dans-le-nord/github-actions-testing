@@ -23,6 +23,19 @@ A la création d'une issue, si elle a le tag qui faut
 template create_spot
 construire le json, ajouter commiter et faire une PR
 
+Algo : 
+- on create issue trigger workflow
+- if issue is_template + qque chose plus déterminant
+- get json
+- check valid
+- checkout code repo
+- is update or create or delete ?
+- modif spots.json
+- commit on new branch spots.json
+- create PR for the branch
+
+Nouveau job = merge PR automatic si spots.json = seul fichier modifié
+
 Action : validation du spot.json avant merge + test U plus tard + push ftp via secrets
 action en GO qui parse spot.json et qui valide que c'est cohérent
 chaque element a les variables qu'il faut au format qu'il faut

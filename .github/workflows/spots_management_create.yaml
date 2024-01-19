@@ -1,0 +1,14 @@
+name: spots_creator_with_issue
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  comment:
+    if: ${{ github.event.issue.labels[0].name }} == 'addSpot'
+    runs-on: ubuntu-latest
+    steps:
+      
+      - run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.html_url }}
