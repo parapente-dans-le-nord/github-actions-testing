@@ -3,12 +3,16 @@ on:
   issues:
     types: [opened, edited]
 jobs:
-  comment:
-    if: ${{ github.event.issue.labels[0].name }} == 'addSpot'
+  addSpot:
+    if: contains( github.event.issue.labels.*.name, 'addSpot')
+
     runs-on: ubuntu-latest
     steps:
+      - name: label addSpot ok ?
+        run: echo "we have the good label"
+
       
-      - run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE: ${{ github.event.issue.html_url }}
+#      - run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
+#        env:
+#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          ISSUE: ${{ github.event.issue.html_url }}
