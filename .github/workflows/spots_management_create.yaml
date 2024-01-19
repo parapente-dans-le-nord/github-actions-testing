@@ -8,8 +8,14 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - name: label addSpot ok ?
-        run: echo "we have the good label"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: parse issue and add spot to spots.json
+        id: run-action-docker
+        uses: parapente-dans-le-nord/dockerized-github-action@main
+        with:
+          issueBody: ${{ github.event.issue.body }}
 
       
 #      - run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
