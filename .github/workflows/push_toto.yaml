@@ -28,9 +28,7 @@ jobs:
       - name: Run my docker action
         id: run-action-docker
         uses: parapente-dans-le-nord/dockerized-github-action@main
-        with:
-          who-to-greet: manouel
 
       - name: Print Output docker
         id: output-docker
-        run: 'echo mon actoin renvoit : ${{ steps.run-action-docker.outputs.greeting }}'
+        run: 'echo mon actoin renvoit : ${{ steps.run-action-docker.outputs.spotName }}'
