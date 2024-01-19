@@ -21,9 +21,20 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: add spot from actions
-          branch: feature-123
+          branch: feature-12
           create_branch: true
-#      - run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
-#        env:
-#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          ISSUE: ${{ github.event.issue.html_url }}
+
+      - name: create pull request
+        run: gh pr create -B main -H feature-12 --title 'Merge feature-12 into main' --body 'Created by Github action'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: merge pull request
+        run: gh pr merge feature-12 --delete-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: gh issue comment $ISSUE --body "Le spot est ajouté !!!"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.html_url }}
