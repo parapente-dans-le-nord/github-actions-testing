@@ -4,6 +4,7 @@ on:
     types: [opened, edited]
 jobs:
   addSpot:
+    # if: creator = alain ou moi
     if: contains( github.event.issue.labels.*.name, 'addSpot')
 
     runs-on: ubuntu-latest
