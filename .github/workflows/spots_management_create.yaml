@@ -5,6 +5,9 @@ on:
 jobs:
   addSpot:
     # if: creator = alain ou moi
+    # gestion des erreurs : texte dans l'issue qui demande a faire les modifs
+    # pousse en ftp juste spot.json
+
     if: contains( github.event.issue.labels.*.name, 'addSpot')
 
     permissions:
@@ -42,6 +45,9 @@ jobs:
         run: gh pr merge ${{ env.BRANCH_NAME }} --merge --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: push spots.json on server
+        run: curl -u ${{ secrets.FTPUSER}}:${{ secrets.FTPPASSWORD }} -T src/spots.json ftp://ftp.cluster007.hosting.ovh.net/www/meteonew/
 
       - run: gh issue comment $ISSUE --body "Le spot est ajouté !!!"
         env:
