@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo context
-        run: echo $GITHUB_CONTEXT
+        run: echo "$GITHUB_CONTEXT"
         
       - run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
         env:
