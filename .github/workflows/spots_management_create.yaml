@@ -7,6 +7,9 @@ jobs:
     # if: creator = alain ou moi
     if: contains( github.event.issue.labels.*.name, 'addSpot')
 
+    permissions:
+      contents: write
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
