@@ -21,19 +21,23 @@ jobs:
         with:
           issueBody: ${{ github.event.issue.body }}
 
+      - name: dynamic branch name
+        id: dynamic-branch-name
+        run: echo "BRANCH_NAME=feature_$(date +'%H%M%S')" >> $GITHUB_ENV
+
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: add spot from actions
-          branch: feature-12
+          branch: ${{ env.BRANCH_NAME }}
           create_branch: true
 
       - name: create pull request
-        run: gh pr create -B main -H feature-12 --title 'Merge feature-12 into main' --body 'Created by Github action'
+        run: gh pr create -B main -H ${{ env.BRANCH_NAME }} --title 'Merge ${{ env.BRANCH_NAME }} into main' --body 'Created by Github action'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: merge pull request
-        run: gh pr merge feature-12 --merge --delete-branch
+        run: gh pr merge ${{ env.BRANCH_NAME }} --merge --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
