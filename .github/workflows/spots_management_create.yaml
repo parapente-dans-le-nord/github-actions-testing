@@ -37,11 +37,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
       - name: parse issue and add spot to spots.json
         id: run-action-docker
         uses: parapente-dans-le-nord/dockerized-github-action@main
@@ -81,6 +76,9 @@ jobs:
       pull-requests: write
     
     steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Download spots.json artifact
         uses: actions/download-artifact@v3
