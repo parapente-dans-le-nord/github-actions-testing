@@ -12,7 +12,6 @@ Modifiez le JSON ci dessous pour que les informations correspondent au nouveau s
 type : plaine OU treuil OU bord-de-mer
 
 si type = bord-de-mer : 
-- ajouter `needSeaCheck : true`
 - "tideTableUrl": "Zuydcoote/"
 
 Veillez a retirer les informations non requises, par exemple si le spot n'a pas de période d'interdiction.
@@ -30,7 +29,6 @@ minSpeed: 13
 maxSpeed: 23
 distance: 132km 1h50mn
 geoloc: 50.75035246960507 1.594958234383776
-needSeaCheck: true
 tideTableUrl: https://www.horaire-maree.fr/maree/Wimereux/
 excludeDays: 0 1
 monthsToExcludes: 8 9 10
