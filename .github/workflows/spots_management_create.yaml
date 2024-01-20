@@ -53,6 +53,10 @@ jobs:
         with:
           issueBody: ${{ github.event.issue.body }}
 
+      - name: echo error if present
+        if: steps.run-action-docker.outputs.docker-ga-action-error
+        run: echo "raison erreur : ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}"
+
       - name: dynamic branch name
         id: dynamic-branch-name
         run: echo "BRANCH_NAME=feature_$(date +'%H%M%S')" >> $GITHUB_ENV
