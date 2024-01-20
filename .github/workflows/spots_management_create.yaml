@@ -49,7 +49,7 @@ jobs:
 
   handleErrors:
     needs: parseIssueAndAddSpot
-    if: needs.parseIssueAndAddSpot.outputs.parsingError
+    if: ${{ ! needs.parseIssueAndAddSpot.outputs.parsingError == 'true'}}
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -62,7 +62,7 @@ jobs:
   
   allGoodSaveWork:
     needs: parseIssueAndAddSpot
-    if: ${{ ! needs.parseIssueAndAddSpot.outputs.parsingError }}
+    if: ${{ needs.parseIssueAndAddSpot.outputs.parsingError == 'false' }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
