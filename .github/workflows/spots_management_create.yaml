@@ -55,7 +55,7 @@ jobs:
 
       - name: echo error if present
         if: steps.run-action-docker.outputs.docker-ga-action-error
-        run: echo "raison erreur : ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}"
+        run: "echo raison erreur : ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}"
 
       - name: dynamic branch name
         id: dynamic-branch-name
