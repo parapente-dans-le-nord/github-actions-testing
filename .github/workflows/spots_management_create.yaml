@@ -2,7 +2,9 @@ name: spots_creator_with_issue
 on:
   issues:
     types: [opened, edited]
+
 jobs:
+
   checkBefore:
     runs-on: ubuntu-latest
     steps:
@@ -12,19 +14,19 @@ jobs:
         run: |
           echo "label is addSpot, we can proceed" && 
           echo "goodLabel=true" >> $GITHUB_OUTPUT
+      
+      - name: check issue created by the allowed users
+        id: checkUsers
+        if: contains(fromJson('["parapente-dans-le-nord", "alain"]'), github.actor)
+        run: |
+          echo "issue creator is allowed, we can proceed" && 
+          echo "goodCreator=true" >> $GITHUB_OUTPUT
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
-      # check creator is in list
     outputs:
       goodLabel: ${{ steps.checkLabel.outputs.goodLabel }}
-
+      goodCreator: ${{ steps.checkUsers.outputs.goodCreator }}
 
   addSpot:
-    # if: creator = alain ou moi
     # gestion des erreurs : texte dans l'issue qui demande a faire les modifs
     # gestion update, delete, create
     # 1 job = parse issue et detecte update,create,delete
@@ -33,7 +35,7 @@ jobs:
     # 1 job = need previous, commit pr merge 
     # 1 job = envoi en prod
     needs: checkBefore
-    if: needs.checkBefore.outputs.goodLabel
+    if: needs.checkBefore.outputs.goodLabel && needs.checkBefore.outputs.goodCreator
 
     permissions:
       contents: write
