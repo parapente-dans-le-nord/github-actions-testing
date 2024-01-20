@@ -85,7 +85,7 @@ jobs:
         run: echo $PWD
 
       - name: ls
-        run: echo ls -larth
+        run: ls -larth
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -94,7 +94,7 @@ jobs:
         run: echo $PWD
 
       - name: ls 2
-        run: echo ls -larth
+        run: ls -larth
 
       - name: Upload spots.json artifact
         uses: actions/upload-artifact@v3
@@ -106,7 +106,7 @@ jobs:
         run: echo $PWD
 
       - name: ls 3
-        run: echo ls -larth
+        run: ls -larth
 
       - name: dynamic branch name
         id: dynamic-branch-name
