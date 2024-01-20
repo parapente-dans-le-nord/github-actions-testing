@@ -4,6 +4,7 @@ on:
     types: [opened, edited]
 jobs:
   checkBefore:
+    runs-on: ubuntu-latest
     steps:
       - name: check label is the good one for managing spots
         id: checkLabel
