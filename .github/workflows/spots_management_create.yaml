@@ -86,7 +86,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: spots
-          path: src/spots.json"
+          path: src/spots.json
 
       - name: dynamic branch name
         id: dynamic-branch-name
