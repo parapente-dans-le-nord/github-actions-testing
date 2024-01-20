@@ -1044,8 +1044,8 @@
         "ONO",
         "O"
       ],
-      "minSpeed": 13,
-      "maxSpeed": 23,
+      "minSpeed": 98,
+      "maxSpeed": 99,
       "distance": "132km 1h50mn",
       "geoloc": "50.75035246960507 1.594958234383776",
       "tideTableUrl": "Wimereux/",
