@@ -26,23 +26,14 @@ jobs:
       goodLabel: ${{ steps.checkLabel.outputs.goodLabel }}
       goodCreator: ${{ steps.checkUsers.outputs.goodCreator }}
 
-  addSpot:
-    # gestion des erreurs : texte dans l'issue qui demande a faire les modifs
+  parseIssueAndAddSpot:
     # gestion update, delete, create
-    # 1 job = parse issue et detecte update,create,delete
-    # 1 job = fait la modif spot.json -> gestion erreur = set variable error=true + reason=blabla blabla
-    # 1 job = need previous, continue si error=true, comment issue avec instruction
-    # 1 job = need previous, commit pr merge 
-    # 1 job = envoi en prod
     needs: checkBefore
     if: needs.checkBefore.outputs.goodLabel && needs.checkBefore.outputs.goodCreator
-
     permissions:
       contents: write
-      pull-requests: write
-      issues: write
-
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,11 +43,33 @@ jobs:
         uses: parapente-dans-le-nord/dockerized-github-action@main
         with:
           issueBody: ${{ github.event.issue.body }}
+    outputs:
+      parsingError: ${{ steps.run-action-docker.outputs.docker-ga-action-error }}
+      parsingReason: ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}
 
-      - name: echo error if present
-        if: steps.run-action-docker.outputs.docker-ga-action-error == true
-        run: "echo raison erreur : ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}"
-
+  handleErrors:
+    needs: parseIssueAndAddSpot
+    if: needs.parseIssueAndAddSpot.outputs.parsingError == true
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    
+    steps:
+      - run: gh issue comment $ISSUE --body "Oups, une petite erreur. \n ${{ needs.parseIssueAndAddSpot.outputs.parsingReason }} "
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.html_url }}
+  
+  allGoodSaveWork:
+    needs: parseIssueAndAddSpot
+    if: needs.parseIssueAndAddSpot.outputs.parsingError == false
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+      pull-requests: write
+    
+    steps:
       - name: dynamic branch name
         id: dynamic-branch-name
         run: echo "BRANCH_NAME=feature_$(date +'%H%M%S')" >> $GITHUB_ENV
@@ -76,12 +89,13 @@ jobs:
         run: gh pr merge ${{ env.BRANCH_NAME }} --merge --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
+  pushToProd:
+    needs: allGoodSaveWork
+    runs-on: ubuntu-latest
+    steps:
       - name: push spots.json on server
         if: contains( github.event.issue.labels.*.name, 'pushProd')
         run: curl -u ${{ secrets.FTPUSER}}:${{ secrets.FTPPASSWORD }} -T src/spots.json ftp://ftp.cluster007.hosting.ovh.net/www/meteonew/
 
-      - run: gh issue comment $ISSUE --body "Le spot est ajouté !!!"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE: ${{ github.event.issue.html_url }}
+      
