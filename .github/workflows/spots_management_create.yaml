@@ -54,7 +54,7 @@ jobs:
           issueBody: ${{ github.event.issue.body }}
 
       - name: echo error if present
-        if: steps.run-action-docker.outputs.docker-ga-action-error
+        if: steps.run-action-docker.outputs.docker-ga-action-error == true
         run: "echo raison erreur : ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}"
 
       - name: dynamic branch name
