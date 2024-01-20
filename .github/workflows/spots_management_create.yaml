@@ -43,9 +43,16 @@ jobs:
         uses: parapente-dans-le-nord/dockerized-github-action@main
         with:
           issueBody: ${{ github.event.issue.body }}
+
+      - name: save json file to output
+        id: save-json
+        run: echo "jsonData=$(cat src/spots.json)" >> $GITHUB_OUTPUT
+      
     outputs:
       parsingError: ${{ steps.run-action-docker.outputs.docker-ga-action-error }}
       parsingReason: ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}
+      jsonData: ${{ steps.save-json.outputs.jsonData }}
+
 
   handleErrors:
     needs: parseIssueAndAddSpot
@@ -70,6 +77,12 @@ jobs:
       pull-requests: write
     
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: change json content
+        run: cat ${{ needs.parseIssueAndAddSpot.outputs.jsonData }} > src/spots.json
+
       - name: dynamic branch name
         id: dynamic-branch-name
         run: echo "BRANCH_NAME=feature_$(date +'%H%M%S')" >> $GITHUB_ENV
