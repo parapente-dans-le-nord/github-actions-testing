@@ -3,12 +3,35 @@ on:
   issues:
     types: [opened, edited]
 jobs:
+  checkBefore:
+    steps:
+      - name: check label is the good one for managing spots
+        id: checkLabel
+        if: contains( github.event.issue.labels.*.name, 'addSpot')
+        run: |
+          echo "label is addSpot, we can proceed" && 
+          echo "goodLabel=true" >> $GITHUB_OUTPUT
+
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+
+      # check creator is in list
+    outputs:
+      goodLabel: ${{ steps.checkLabel.outputs.goodLabel }}
+
+
   addSpot:
     # if: creator = alain ou moi
     # gestion des erreurs : texte dans l'issue qui demande a faire les modifs
-    # pousse en ftp juste spot.json
-
-    if: contains( github.event.issue.labels.*.name, 'addSpot')
+    # gestion update, delete, create
+    # 1 job = parse issue et detecte update,create,delete
+    # 1 job = fait la modif spot.json -> gestion erreur = set variable error=true + reason=blabla blabla
+    # 1 job = need previous, continue si error=true, comment issue avec instruction
+    # 1 job = need previous, commit pr merge 
+    # 1 job = envoi en prod
+    needs: checkBefore
+    if: needs.checkBefore.outputs.goodLabel
 
     permissions:
       contents: write
@@ -47,6 +70,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: push spots.json on server
+        if: contains( github.event.issue.labels.*.name, 'pushProd')
         run: curl -u ${{ secrets.FTPUSER}}:${{ secrets.FTPPASSWORD }} -T src/spots.json ftp://ftp.cluster007.hosting.ovh.net/www/meteonew/
 
       - run: gh issue comment $ISSUE --body "Le spot est ajouté !!!"
