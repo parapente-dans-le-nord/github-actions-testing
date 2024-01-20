@@ -44,20 +44,15 @@ jobs:
         with:
           issueBody: ${{ github.event.issue.body }}
 
-      - name: save json file to output
-        id: save-json
-        run: |
-          {
-            echo 'JSON_DATA<<EOF'
-            cat src/spots.json
-            echo EOF
-          } >> "$GITHUB_OUTPUT"
+      - name: Upload spots.json artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: spots
+          path: src/spots.json
       
     outputs:
       parsingError: ${{ steps.run-action-docker.outputs.docker-ga-action-error }}
       parsingReason: ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}
-      jsonData: ${{ steps.save-json.outputs.JSON_DATA }}
-
 
   handleErrors:
     needs: parseIssueAndAddSpot
@@ -84,9 +79,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: change json content
-        run: cat ${{ needs.parseIssueAndAddSpot.outputs.jsonData }} > src/spots.json
+        
+      - name: Upload spots.json artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: spots
+          path: src/spots.json
 
       - name: dynamic branch name
         id: dynamic-branch-name
