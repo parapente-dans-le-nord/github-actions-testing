@@ -46,12 +46,17 @@ jobs:
 
       - name: save json file to output
         id: save-json
-        run: echo "jsonData=$(cat src/spots.json)" >> $GITHUB_OUTPUT
+        run: |
+          {
+            echo 'JSON_DATA<<EOF'
+            cat src/spots.json
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
       
     outputs:
       parsingError: ${{ steps.run-action-docker.outputs.docker-ga-action-error }}
       parsingReason: ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}
-      jsonData: ${{ steps.save-json.outputs.jsonData }}
+      jsonData: ${{ steps.save-json.outputs.JSON_DATA }}
 
 
   handleErrors:
