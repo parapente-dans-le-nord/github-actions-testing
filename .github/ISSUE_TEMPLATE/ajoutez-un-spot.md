@@ -65,4 +65,4 @@ ffvl: https://federation.ffvl.fr/terrain/740
 
 youtube: https://www.youtube.com/watch?v=L3AfTOjkCpU
 
-# Fin spot template
+# Spot Template a remplir
