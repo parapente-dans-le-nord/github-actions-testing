@@ -55,7 +55,7 @@ jobs:
       issues: write
     
     steps:
-      - run: gh issue comment $ISSUE --body "Oups, une petite erreur. \n ${{ needs.parseIssueAndAddSpot.outputs.parsingReason }} "
+      - run: gh issue comment $ISSUE --body "${{ needs.parseIssueAndAddSpot.outputs.parsingReason }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
@@ -89,6 +89,16 @@ jobs:
         run: gh pr merge ${{ env.BRANCH_NAME }} --merge --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: gh issue comment $ISSUE --body "Opération réussie avec succés. Le résultat sera bientôt visible sur le site."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.html_url }}
+
+      - run: gh issue close $ISSUE
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.html_url }}
 
   pushToProd:
     needs: allGoodSaveWork
