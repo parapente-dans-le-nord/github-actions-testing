@@ -82,12 +82,18 @@ jobs:
 
       - name: remove old spots.json
         run: rm -f src/spots.json
-        
+
       - name: Download spots.json artifact
         uses: actions/download-artifact@v3
         with:
           name: spots
-          path: src/spots.json
+          path: src/spots
+
+      - name: move new spots.json
+        run: mv src/spots/spots.json src
+
+      - name: delete artefact
+        run: rm -rf src/spots
 
       - name: dynamic branch name
         id: dynamic-branch-name
