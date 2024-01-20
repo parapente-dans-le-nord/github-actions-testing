@@ -80,6 +80,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: remove old spots.json
+        run: rm -f src/spots.json
+        
       - name: Download spots.json artifact
         uses: actions/download-artifact@v3
         with:
