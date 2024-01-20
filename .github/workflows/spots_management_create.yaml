@@ -84,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: spots
-          path: src/spots.json
+          path: "${{ github.workspace }}/src/spots.json"
 
       - name: dynamic branch name
         id: dynamic-branch-name
