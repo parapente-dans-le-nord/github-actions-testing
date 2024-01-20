@@ -27,7 +27,6 @@ jobs:
       goodCreator: ${{ steps.checkUsers.outputs.goodCreator }}
 
   parseIssueAndAddSpot:
-    # gestion update, delete, create
     needs: checkBefore
     if: needs.checkBefore.outputs.goodLabel && needs.checkBefore.outputs.goodCreator
     permissions:
@@ -37,6 +36,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
       - name: parse issue and add spot to spots.json
         id: run-action-docker
@@ -56,7 +60,7 @@ jobs:
 
   handleErrors:
     needs: parseIssueAndAddSpot
-    if: ${{ ! needs.parseIssueAndAddSpot.outputs.parsingError == 'true'}}
+    if: false && ${{ ! needs.parseIssueAndAddSpot.outputs.parsingError == 'true'}}
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -69,7 +73,7 @@ jobs:
   
   allGoodSaveWork:
     needs: parseIssueAndAddSpot
-    if: ${{ needs.parseIssueAndAddSpot.outputs.parsingError == 'false' }}
+    if: false && ${{ needs.parseIssueAndAddSpot.outputs.parsingError == 'false' }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -78,35 +82,11 @@ jobs:
     
     steps:
 
-      - name: echo g work
-        run: "echo ${{ github.workspace }}"
-
-      - name: pwd
-        run: echo $PWD
-
-      - name: ls
-        run: ls -larth
-
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: pwd 2
-        run: echo $PWD
-
-      - name: ls 2
-        run: ls -larth
-
       - name: Download spots.json artifact
         uses: actions/download-artifact@v3
         with:
           name: spots
           path: src/spots.json"
-
-      - name: pwd 3
-        run: echo $PWD
-
-      - name: ls 3
-        run: ls -larth
 
       - name: dynamic branch name
         id: dynamic-branch-name
