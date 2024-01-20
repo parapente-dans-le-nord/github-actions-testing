@@ -77,14 +77,36 @@ jobs:
       pull-requests: write
     
     steps:
+
+      - name: echo g work
+        run: "echo ${{ github.workspace }}"
+
+      - name: pwd
+        run: echo $PWD
+
+      - name: ls
+        run: echo ls -larth
+
       - name: Checkout
         uses: actions/checkout@v4
-        
+      
+      - name: pwd 2
+        run: echo $PWD
+
+      - name: ls 2
+        run: echo ls -larth
+
       - name: Upload spots.json artifact
         uses: actions/upload-artifact@v3
         with:
           name: spots
-          path: "${{ github.workspace }}/src/spots.json"
+          path: src/spots.json"
+
+      - name: pwd 3
+        run: echo $PWD
+
+      - name: ls 3
+        run: echo ls -larth
 
       - name: dynamic branch name
         id: dynamic-branch-name
