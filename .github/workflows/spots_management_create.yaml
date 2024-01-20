@@ -96,8 +96,8 @@ jobs:
       - name: ls 2
         run: ls -larth
 
-      - name: Upload spots.json artifact
-        uses: actions/upload-artifact@v3
+      - name: Download spots.json artifact
+        uses: actions/download-artifact@v3
         with:
           name: spots
           path: src/spots.json"
