@@ -48,6 +48,11 @@ jobs:
         with:
           name: spots
           path: src/spots.json
+
+      - name: log github output var
+        run: |
+         echo ${{ steps.run-action-docker.outputs.docker-ga-action-error }}
+         echo ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}
       
     outputs:
       parsingError: ${{ steps.run-action-docker.outputs.docker-ga-action-error }}
