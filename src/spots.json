@@ -266,8 +266,8 @@
         "O",
         "ONO"
       ],
-      "minSpeed": 13,
-      "maxSpeed": 23,
+      "minSpeed": 35,
+      "maxSpeed": 75,
       "distance": "132km, 1h50mn",
       "geoloc": "50.75035246960507, 1.594958234383776",
       "needSeaCheck": true,
