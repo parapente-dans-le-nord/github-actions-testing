@@ -50,8 +50,7 @@ jobs:
           path: src/spots.json
 
       - name: log github output var
-        run: |
-         echo ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}
+        run: "echo ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}"
       
     outputs:
       parsingError: ${{ steps.run-action-docker.outputs.docker-ga-action-error }}
@@ -66,8 +65,7 @@ jobs:
     
     steps:
       - name: log github output var
-        run: |
-         echo ${{ needs.parseIssueAndAddSpot.outputs.parsingReason }}
+        run: "echo ${{ needs.parseIssueAndAddSpot.outputs.parsingReason }}"
 
       - run: gh issue comment $ISSUE --body "${{ needs.parseIssueAndAddSpot.outputs.parsingReason }}"
         env:
