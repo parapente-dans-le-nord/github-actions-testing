@@ -48,9 +48,6 @@ jobs:
         with:
           name: spots
           path: src/spots.json
-
-      - name: log github output var
-        run: "echo ${{ steps.run-action-docker.outputs.docker-ga-action-reason }}"
       
     outputs:
       parsingError: ${{ steps.run-action-docker.outputs.docker-ga-action-error }}
@@ -58,15 +55,13 @@ jobs:
 
   handleErrors:
     needs: parseIssueAndAddSpot
-    #if: ${{ ! needs.parseIssueAndAddSpot.outputs.parsingError == 'true'}}
+    if: ${{ ! needs.parseIssueAndAddSpot.outputs.parsingError == 'true'}}
     runs-on: ubuntu-latest
     permissions:
       issues: write
     
     steps:
-      - name: log github output var
-        run: "echo ${{ needs.parseIssueAndAddSpot.outputs.parsingReason }}"
-
+    
       - run: gh issue comment $ISSUE --body "${{ needs.parseIssueAndAddSpot.outputs.parsingReason }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
