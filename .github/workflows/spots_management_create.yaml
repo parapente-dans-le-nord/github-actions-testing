@@ -55,13 +55,13 @@ jobs:
 
   handleErrors:
     needs: parseIssueAndAddSpot
-    if: ${{ ! needs.parseIssueAndAddSpot.outputs.parsingError == 'true'}}
+    if: ${{ needs.parseIssueAndAddSpot.outputs.parsingError == 'true'}}
     runs-on: ubuntu-latest
     permissions:
       issues: write
     
     steps:
-    
+
       - run: gh issue comment $ISSUE --body "${{ needs.parseIssueAndAddSpot.outputs.parsingReason }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
